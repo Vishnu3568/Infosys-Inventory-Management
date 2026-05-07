@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "${APP_CORS_ORIGIN:http://localhost:3000}")
 @RequestMapping("/auth")
 public class AuthController {
     private final AuthService authService;

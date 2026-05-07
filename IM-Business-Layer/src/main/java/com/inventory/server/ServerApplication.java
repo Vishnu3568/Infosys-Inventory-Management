@@ -16,8 +16,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableJpaRepositories(basePackages = "com.inventory.database_system.repository")
 public class ServerApplication {
 
-    @Value("${APP_CORS_ORIGIN:http://localhost:3000}")
-    private String corsOrigin;
+    @Value("${APP_CORS_ORIGINS:http://localhost:3000}")
+    private String corsOrigins;
 
     public static void main(String[] args) {
         SpringApplication.run(ServerApplication.class, args);
@@ -29,7 +29,7 @@ public class ServerApplication {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins(corsOrigin)
+                        .allowedOrigins(corsOrigins.split(","))
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);

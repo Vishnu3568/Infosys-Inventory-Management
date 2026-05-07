@@ -20,7 +20,6 @@ import java.util.Map;
 
 @RestController
 @Transactional
-@CrossOrigin(origins = "${APP_CORS_ORIGIN:http://localhost:3000}")
 @RequestMapping("/api")
 public class Controller {
 
