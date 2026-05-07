@@ -9,9 +9,6 @@
 **/node_modules/
 **/dist/
 **/build/
-**/.mvn/
-**/mvnw
-**/mvnw.cmd
 
 # Env files
 **/.env
