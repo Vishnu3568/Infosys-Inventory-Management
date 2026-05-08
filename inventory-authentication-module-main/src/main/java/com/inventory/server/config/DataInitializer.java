@@ -14,20 +14,20 @@ public class DataInitializer {
     @Bean
     public CommandLineRunner initData(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return args -> {
-            // Create Testuser / Testpass if it doesn't exist
-            System.out.println("DataInitializer: Checking for 'Testuser'...");
-            if (userRepository.findByUsername("Testuser").isEmpty()) {
-                System.out.println("DataInitializer: 'Testuser' not found. Creating it now...");
+            // Create testuser / testpass if it doesn't exist
+            System.out.println("DataInitializer: Checking for 'testuser'...");
+            if (userRepository.findByUsername("testuser").isEmpty()) {
+                System.out.println("DataInitializer: 'testuser' not found. Creating it now...");
                 User testUser = User.builder()
-                        .username("Testuser")
-                        .email("test@example.com")
-                        .password(passwordEncoder.encode("Testpass"))
+                        .username("testuser")
+                        .email("testuser@example.com")
+                        .password(passwordEncoder.encode("testpass"))
                         .role(Role.ADMIN)
                         .build();
                 userRepository.save(testUser);
-                System.out.println("DataInitializer: SUCCESS - Created 'Testuser' with password 'Testpass' and role ADMIN");
+                System.out.println("DataInitializer: SUCCESS - Created 'testuser' with password 'testpass' and role ADMIN");
             } else {
-                System.out.println("DataInitializer: 'Testuser' already exists in the database.");
+                System.out.println("DataInitializer: 'testuser' already exists in the database.");
             }
         };
     }

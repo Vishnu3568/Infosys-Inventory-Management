@@ -22,7 +22,7 @@ public class InventoryValidator {
     }
 
 
-    public void validateProductExists(Object product, int id) {
+    public void validateProductExists(Object product, Long id) {
         if (product == null) {
             throw new RuntimeException("Product with ID " + id + " not found");
         }

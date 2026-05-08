@@ -31,7 +31,7 @@ public class InventoryService {
 
         Product product = productDAO.getProductById(id);
 
-        validator.validateProductExists(product, id.intValue());
+        validator.validateProductExists(product, id);
         validator.validateStock(product.getQuantity(), quantity);   // was: getStock()
 
         int newQuantity = product.getQuantity() - quantity;         // was: getStock()
@@ -53,7 +53,7 @@ public class InventoryService {
 
         Product product = productDAO.getProductById(id);
 
-        validator.validateProductExists(product, id.intValue());
+        validator.validateProductExists(product, id);
 
         int newQuantity = product.getQuantity() + quantity;         // was: getStock()
 
@@ -66,7 +66,7 @@ public class InventoryService {
 
         Product product = productDAO.getProductById(id);
 
-        validator.validateProductExists(product, id.intValue());
+        validator.validateProductExists(product, id);
 
         return product.getQuantity();                                // was: getStock()
     }

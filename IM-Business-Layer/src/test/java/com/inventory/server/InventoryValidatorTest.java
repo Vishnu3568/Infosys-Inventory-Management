@@ -62,13 +62,13 @@ class InventoryValidatorTest {
     @Test
     void validateProductExists_nonNullProduct_doesNotThrow() {
         Object product = new Object();
-        assertDoesNotThrow(() -> validator.validateProductExists(product, 1));
+        assertDoesNotThrow(() -> validator.validateProductExists(product, 1L));
     }
 
     @Test
     void validateProductExists_nullProduct_throwsWithId() {
         RuntimeException ex = assertThrows(RuntimeException.class,
-                () -> validator.validateProductExists(null, 42));
+                () -> validator.validateProductExists(null, 42L));
         assertTrue(ex.getMessage().contains("42"));
     }
 }
