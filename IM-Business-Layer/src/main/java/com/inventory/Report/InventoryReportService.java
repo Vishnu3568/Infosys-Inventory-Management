@@ -1,4 +1,5 @@
 package com.inventory.Report;
+
 import com.inventory.dao.ProductDAO;
 import com.inventory.database_system.entity.Product;
 import com.inventory.database_system.entity.AlertHistory;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+
 @Service
 public class InventoryReportService {
 
@@ -33,56 +35,50 @@ public class InventoryReportService {
             }
  
             if (lowStockProducts.isEmpty()) {
-                System.out.println("Inventory Check: All products sufficiently stocked.");
+                System.out.println("Check finished: Stocks are all good.");
                 return;
             }
  
-            // 1. Send professional alert to specified recipient
-            sendProfessionalLowStockAlert(lowStockProducts);
+            sendLowStockAlert(lowStockProducts);
  
-            // 2. Log and store history
+            // Log this alert in history
             AlertHistory history = new AlertHistory(username, role, LocalDateTime.now(), lowStockProducts.size());
             alertHistoryRepository.save(history);
-            System.out.println("Alert history stored for user: " + username);
+            System.out.println("Alert logged for: " + username);
 
         } catch (Exception e) {
-            System.err.println("CRITICAL ERROR during report generation:");
-            e.printStackTrace(); // This will show the exact line number of the crash in the terminal
-            throw new RuntimeException("Report Error: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+            System.err.println("Error generating report:");
+            e.printStackTrace();
+            throw new RuntimeException("Report Generation Failed: " + e.getMessage());
         }
     }
  
-    private void sendProfessionalLowStockAlert(List<Product> products) {
+    private void sendLowStockAlert(List<Product> products) {
         String recipient = "u.vishnu3568@gmail.com";
-        String subject = "Low Stock Inventory Alert";
+        String subject = "Inventory Alert: Low Stock Items";
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDate = LocalDateTime.now().format(formatter);
 
         StringBuilder body = new StringBuilder();
-        body.append("Dear Administrator / Stakeholder,\n\n");
-        body.append("This is an automated professional alert from the InvenTrack System.\n\n");
-        body.append("--- ALERT SUMMARY ---\n");
-        body.append("Date and Time Generated: ").append(formattedDate).append("\n");
-        body.append("Total Low Stock Items Count: ").append(products.size()).append("\n\n");
+        body.append("Hi Team,\n\n");
+        body.append("The following items are running low and need to be restocked:\n\n");
+        body.append("Date: ").append(formattedDate).append("\n\n");
         
-        body.append(String.format("%-25s | %-15s | %-10s | %-10s\n", "Product Name", "SKU", "Qty", "Min Req"));
-        body.append("--------------------------------------------------------------------------\n");
+        body.append(String.format("%-25s | %-15s | %-10s\n", "Product", "SKU", "Qty Left"));
+        body.append("----------------------------------------------------------\n");
         
         for (Product p : products) {
-            body.append(String.format("%-25s | %-15s | %-10d | %-10d\n",
+            body.append(String.format("%-25s | %-15s | %-10d\n",
                         truncate(p.getName(), 24), 
                         p.getSku(), 
-                        p.getQuantity(), 
-                        p.getReorderLevel()));
+                        p.getQuantity()));
         }
         
-        body.append("\nURGENT: The above items have fallen below their minimum required stock levels. Please arrange for an immediate restock to avoid operational delays.\n\n");
-        body.append("Regards,\n");
+        body.append("\nPlease check the system for details.\n\n");
         body.append("InvenTrack System\n");
 
         emailService.sendEmail(recipient, subject, body.toString());
-        System.out.println("Professional low stock alert sent to: " + recipient);
     }
 
     private String truncate(String text, int length) {

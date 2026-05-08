@@ -1,8 +1,0 @@
-{
-  "name": "Direct Test Product",
-  "category": "Electronics",
-  "quantity": 10,
-  "price": 99.99,
-  "reorderLevel": 5,
-  "supplier": "Test Supplier"
-}

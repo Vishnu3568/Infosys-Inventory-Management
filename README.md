@@ -1,62 +1,44 @@
-# Infosys Inventory Management - Local Integration Guide
+# InvenTrack - Infosys Inventory Management
 
-This workspace contains a multi-module inventory system:
-- Auth service: `inventory-authentication-module-main` (port `8084`)
-- Business service: `IM-Business-Layer` (port `8082`)
-- Frontend: `inventory_project_presentation_layer` (port `3000`)
+This is a full-stack inventory system built for the Infosys Springboard Virtual Internship. It handles product tracking, stock management, and automated email alerts.
 
-## Prerequisites
+## Project Structure
 
-- Java 21
-- Maven 3.9+
-- Node.js 18+
-- MySQL running on `localhost:3306`
+The project is split into three main parts:
+* **Auth Module (`inventory-authentication-module-main`)**: Handles login, signup, and roles (Admin/Staff/Supplier). Runs on port 8084.
+* **Business Module (`IM-Business-Layer`)**: The core logic. Manages products, categories, and suppliers. It also sends out the low stock emails. Runs on port 8082.
+* **Frontend (`inventory_project_presentation_layer`)**: The dashboard where you actually use the app. Runs on port 3000.
 
-## Environment
+## Tech Stack
 
-Configured local defaults:
-- Frontend API URLs in `inventory_project_presentation_layer/.env.local`
-- Auth env in `inventory-authentication-module-main/.env`
-- Business env in `IM-Business-Layer/.env`
+* **Backend**: Java 21, Spring Boot, MySQL, JPA, and JWT for auth.
+* **Frontend**: React (built with Create React App).
 
-CORS is configurable via env vars:
-- `APP_CORS_ORIGIN` (single origin)
-- `APP_CORS_ORIGINS` (comma-separated list for auth security config)
+## How to Run
 
-## Recommended startup (safe)
+### 1. Prerequisites
+You'll need Java 21, Maven, Node.js, and a MySQL server running on `localhost:3306`.
 
-From repository root:
+### 2. Config
+Check the `.env` files in each module folder to make sure your database and email settings are correct.
 
+### 3. Startup (The Easy Way)
+I've included a script that starts everything up for you. Just run this from the root:
 ```powershell
 .\run-all.ps1
 ```
 
-This starts auth + business + frontend in separate PowerShell windows and avoids duplicate-run conflicts.
+### 4. Manual Startup
+If the script doesn't work for some reason, you can start them manually:
 
-## Manual startup (if needed)
+* **Auth**: `mvn -f "inventory-authentication-module-main/pom.xml" spring-boot:run`
+* **Business**: `mvn -f "IM-Business-Layer/pom.xml" spring-boot:run`
+* **Frontend**: `cd inventory_project_presentation_layer; npm start`
 
-Run each service once in separate terminals:
+## Health Checks
+If you want to see if the APIs are up:
+* Auth: `http://localhost:8084/api/v1/public/health`
+* Business: `http://localhost:8082/api/products`
 
-```powershell
-mvn -f "c:/Users/uvish/Infosys-Inventory-Management/inventory-authentication-module-main/pom.xml" spring-boot:run
-```
-
-```powershell
-mvn -f "c:/Users/uvish/Infosys-Inventory-Management/IM-Business-Layer/pom.xml" spring-boot:run
-```
-
-```powershell
-cd c:/Users/uvish/Infosys-Inventory-Management/inventory_project_presentation_layer
-npm start
-```
-
-## Health checks
-
-```powershell
-Invoke-RestMethod -Uri "http://localhost:8084/api/v1/public/health" -Method Get
-Invoke-WebRequest -Uri "http://localhost:8082/api/products" -Method Get -UseBasicParsing
-```
-
-## Common issue
-
-If you see Maven `spring-boot:run` exit `-1` after a while, it usually means the process was terminated externally or duplicate service instances were started. Use the launcher script (`run-all.ps1`) and avoid starting the same module multiple times in parallel.
+---
+*Internship Project - InvenTrack*
