@@ -14,31 +14,49 @@ The project is split into three main parts:
 * **Backend**: Java 21, Spring Boot, MySQL, JPA, and JWT for auth.
 * **Frontend**: React (built with Create React App).
 
-## How to Run
+## Quick Start (Development)
 
-### 1. Prerequisites
-You'll need Java 21, Maven, Node.js, and a MySQL server running on `localhost:3306`.
+The easiest way to start all services locally is using the provided PowerShell script. This handles port cleanup and environment variable injection:
 
-### 2. Config
-Check the `.env` files in each module folder to make sure your database and email settings are correct.
-
-### 3. Startup (The Easy Way)
-I've included a script that starts everything up for you. Just run this from the root:
 ```powershell
 .\run-all.ps1
 ```
 
-### 4. Manual Startup
-If the script doesn't work for some reason, you can start them manually:
+## Module Structure & Ports
 
-* **Auth**: `mvn -f "inventory-authentication-module-main/pom.xml" spring-boot:run`
-* **Business**: `mvn -f "IM-Business-Layer/pom.xml" spring-boot:run`
-* **Frontend**: `cd inventory_project_presentation_layer; npm start`
+| Module | Directory | Port | Description |
+|--------|-----------|------|-------------|
+| **Auth** | `inventory-authentication-module-main` | 8084 | JWT Authentication & User Management |
+| **Business** | `IM-Business-Layer` | 8082 | Core Logic, Product & Stock Management |
+| **Frontend** | `inventory_project_presentation_layer` | 3000 | React Dashboard |
 
-## Health Checks
-If you want to see if the APIs are up:
-* Auth: `http://localhost:8084/api/v1/public/health`
-* Business: `http://localhost:8082/api/products`
+## Deployment & Manual Startup
+
+When deploying or analyzing the project, follow this order:
+
+1.  **Database**: Ensure MySQL is running and the `inventory_db` database is created.
+2.  **Auth Service**:
+    ```bash
+    cd inventory-authentication-module-main
+    mvn spring-boot:run
+    ```
+3.  **Business Service**:
+    ```bash
+    cd IM-Business-Layer
+    mvn spring-boot:run
+    ```
+4.  **Frontend**:
+    ```bash
+    cd inventory_project_presentation_layer
+    npm install
+    npm start
+    ```
+
+## Environment Variables
+The services rely on `.env` (or `.env.local` for frontend) files. Key variables include:
+- `SPRING_DATASOURCE_URL`: JDBC connection string.
+- `SPRING_DATASOURCE_USERNAME`/`PASSWORD`: DB credentials.
+- `SERVER_PORT`: Port for the Spring Boot application.
 
 ---
 *Internship Project - InvenTrack*
