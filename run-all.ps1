@@ -1,5 +1,4 @@
 param(
-  [switch]$SkipDatabaseSystem,
   [switch]$SkipAuth,
   [switch]$SkipBusiness,
   [switch]$SkipFrontend
@@ -120,17 +119,9 @@ function Get-DotEnvValue {
 }
 
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
-$dbEnvPath = Join-Path $root 'inventory-database-system\.env'
 $authEnvPath = Join-Path $root 'inventory-authentication-module-main\.env'
 $businessEnvPath = Join-Path $root 'IM-Business-Layer\.env'
 $frontendEnvPath = Join-Path $root 'inventory_project_presentation_layer\.env.local'
-
-if (-not $SkipDatabaseSystem) {
-  $dbPort = Get-DotEnvValue -Path $dbEnvPath -Name 'SERVER_PORT' -DefaultValue '8083'
-  Stop-ProcessOnPort -Port $dbPort -Reason 'clear target database port'
-  $dbCommand = ("`$env:SERVER_PORT='{0}'; mvn spring-boot:run" -f $dbPort)
-  Start-ServiceProcess -Name 'database-system' -WorkingDir (Join-Path $root 'inventory-database-system') -Command $dbCommand
-}
 
 if (-not $SkipAuth) {
   $authPortValue = Get-DotEnvValue -Path $authEnvPath -Name 'SERVER_PORT' -DefaultValue '8084'

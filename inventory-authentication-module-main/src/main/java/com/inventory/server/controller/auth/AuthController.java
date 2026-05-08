@@ -1,7 +1,6 @@
 package com.inventory.server.controller.auth;
 
 import com.inventory.server.dto.auth.LoginRequestDTO;
-import com.inventory.server.dto.auth.LoginResponseDTO;
 import com.inventory.server.dto.auth.SignupRequestDTO;
 import com.inventory.server.dto.auth.SignupResponseDTO;
 import com.inventory.server.entity.User;
@@ -9,7 +8,6 @@ import com.inventory.server.service.auth.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

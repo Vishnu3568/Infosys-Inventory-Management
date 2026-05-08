@@ -2,7 +2,7 @@
 
 This workspace contains a multi-module inventory system:
 - Auth service: `inventory-authentication-module-main` (port `8084`)
-- Business service: `IM-Business-Layer/server` (port `8082`)
+- Business service: `IM-Business-Layer` (port `8082`)
 - Frontend: `inventory_project_presentation_layer` (port `3000`)
 
 ## Prerequisites
@@ -17,7 +17,7 @@ This workspace contains a multi-module inventory system:
 Configured local defaults:
 - Frontend API URLs in `inventory_project_presentation_layer/.env.local`
 - Auth env in `inventory-authentication-module-main/.env`
-- Business env in `IM-Business-Layer/server/.env`
+- Business env in `IM-Business-Layer/.env`
 
 CORS is configurable via env vars:
 - `APP_CORS_ORIGIN` (single origin)
@@ -28,16 +28,10 @@ CORS is configurable via env vars:
 From repository root:
 
 ```powershell
-.\run-all.ps1 -SkipDatabaseSystem
+.\run-all.ps1
 ```
 
 This starts auth + business + frontend in separate PowerShell windows and avoids duplicate-run conflicts.
-
-Optional:
-
-```powershell
-.\run-all.ps1 -SkipDatabaseSystem -SkipFrontend
-```
 
 ## Manual startup (if needed)
 
@@ -48,7 +42,7 @@ mvn -f "c:/Users/uvish/Infosys-Inventory-Management/inventory-authentication-mod
 ```
 
 ```powershell
-mvn -f "c:/Users/uvish/Infosys-Inventory-Management/IM-Business-Layer/server/pom.xml" spring-boot:run
+mvn -f "c:/Users/uvish/Infosys-Inventory-Management/IM-Business-Layer/pom.xml" spring-boot:run
 ```
 
 ```powershell
