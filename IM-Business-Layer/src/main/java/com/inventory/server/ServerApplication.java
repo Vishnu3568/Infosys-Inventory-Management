@@ -29,7 +29,7 @@ public class ServerApplication {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins(corsOrigins.split(","))
+                        .allowedOriginPatterns(corsOrigins.split(","))
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
