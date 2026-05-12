@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/IM-Business-Layer" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/inventory-authentication-module-main" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/inventory_project_presentation_layer" vcs="Git" />
+  </component>
+</project>
